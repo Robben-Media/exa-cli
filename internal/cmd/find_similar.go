@@ -38,6 +38,17 @@ func (cmd *FindSimilarCmd) Run(ctx context.Context) error {
 		return outfmt.WriteJSON(os.Stdout, result)
 	}
 
+	if outfmt.IsPlain(ctx) {
+		headers := []string{"TITLE", "URL", "SCORE", "DATE", "AUTHOR"}
+
+		var rows [][]string
+		for _, r := range result.Results {
+			rows = append(rows, []string{r.Title, r.URL, fmt.Sprintf("%.2f", r.Score), r.PublishedDate, r.Author})
+		}
+
+		return outfmt.WritePlain(os.Stdout, headers, rows)
+	}
+
 	if len(result.Results) == 0 {
 		fmt.Fprintln(os.Stderr, "No similar pages found")
 		return nil
