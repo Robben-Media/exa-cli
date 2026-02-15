@@ -32,10 +32,10 @@ func TestNormalizeKeyringBackend(t *testing.T) {
 
 func TestAllowedBackends(t *testing.T) {
 	tests := []struct {
-		name     string
-		info     KeyringBackendInfo
-		wantLen  int
-		wantErr  bool
+		name    string
+		info    KeyringBackendInfo
+		wantLen int
+		wantErr bool
 	}{
 		{
 			name:    "auto backend",
@@ -92,39 +92,39 @@ func TestAllowedBackends(t *testing.T) {
 
 func TestShouldForceFileBackend(t *testing.T) {
 	tests := []struct {
-		name       string
-		goos       string
+		name        string
+		goos        string
 		backendInfo KeyringBackendInfo
-		dbusAddr   string
-		want       bool
+		dbusAddr    string
+		want        bool
 	}{
 		{
-			name:       "Linux without D-Bus",
-			goos:       "linux",
+			name:        "Linux without D-Bus",
+			goos:        "linux",
 			backendInfo: KeyringBackendInfo{Value: "auto", Source: "default"},
-			dbusAddr:   "",
-			want:       true,
+			dbusAddr:    "",
+			want:        true,
 		},
 		{
-			name:       "Linux with D-Bus",
-			goos:       "linux",
+			name:        "Linux with D-Bus",
+			goos:        "linux",
 			backendInfo: KeyringBackendInfo{Value: "auto", Source: "default"},
-			dbusAddr:   "unix:path=/run/user/1000/bus",
-			want:       false,
+			dbusAddr:    "unix:path=/run/user/1000/bus",
+			want:        false,
 		},
 		{
-			name:       "macOS without D-Bus",
-			goos:       "darwin",
+			name:        "macOS without D-Bus",
+			goos:        "darwin",
 			backendInfo: KeyringBackendInfo{Value: "auto", Source: "default"},
-			dbusAddr:   "",
-			want:       false,
+			dbusAddr:    "",
+			want:        false,
 		},
 		{
-			name:       "Linux with explicit keychain backend",
-			goos:       "linux",
+			name:        "Linux with explicit keychain backend",
+			goos:        "linux",
 			backendInfo: KeyringBackendInfo{Value: "keychain", Source: "env"},
-			dbusAddr:   "",
-			want:       false,
+			dbusAddr:    "",
+			want:        false,
 		},
 	}
 

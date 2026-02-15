@@ -1,1 +1,1 @@
-# CLI Template
+# exa-cli

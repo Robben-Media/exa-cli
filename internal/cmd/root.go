@@ -9,30 +9,29 @@ import (
 
 	"github.com/alecthomas/kong"
 
-	"github.com/builtbyrobben/cli-template/internal/errfmt"
-	"github.com/builtbyrobben/cli-template/internal/outfmt"
-)
-
-const (
-	colorAuto  = "auto"
-	colorNever = "never"
+	"github.com/builtbyrobben/exa-cli/internal/errfmt"
+	"github.com/builtbyrobben/exa-cli/internal/outfmt"
 )
 
 type RootFlags struct {
-	Color          string `help:"Color output: auto|always|never" default:"${color}"`
-	JSON           bool   `help:"Output JSON to stdout (best for scripting)" default:"${json}"`
-	Plain          bool   `help:"Output stable, parseable text to stdout (TSV; no colors)" default:"${plain}"`
-	Force          bool   `help:"Skip confirmations for destructive commands"`
-	NoInput        bool   `help:"Never prompt; fail instead (useful for CI)"`
-	Verbose        bool   `help:"Enable verbose logging"`
+	Color   string `help:"Color output: auto|always|never" default:"${color}"`
+	JSON    bool   `help:"Output JSON to stdout (best for scripting)" default:"${json}"`
+	Plain   bool   `help:"Output stable, parseable text to stdout (TSV; no colors)" default:"${plain}"`
+	Force   bool   `help:"Skip confirmations for destructive commands"`
+	NoInput bool   `help:"Never prompt; fail instead (useful for CI)"`
+	Verbose bool   `help:"Enable verbose logging"`
 }
 
 type CLI struct {
 	RootFlags `embed:""`
 
-	Version    kong.VersionFlag `help:"Print version and exit"`
-	Auth       AuthCmd          `cmd:"" help:"Auth and credentials"`
-	VersionCmd VersionCmd       `cmd:"" name:"version" help:"Print version"`
+	Version     kong.VersionFlag `help:"Print version and exit"`
+	Auth        AuthCmd          `cmd:"" help:"Auth and credentials"`
+	Search      SearchCmd        `cmd:"" help:"Search the web"`
+	Contents    ContentsCmd      `cmd:"" help:"Search and retrieve page contents"`
+	FindSimilar FindSimilarCmd   `cmd:"" name:"find-similar" help:"Find pages similar to a URL"`
+	Answer      AnswerCmd        `cmd:"" help:"Get AI answers with citations"`
+	VersionCmd  VersionCmd       `cmd:"" name:"version" help:"Print version"`
 }
 
 type exitPanic struct{ code int }
@@ -118,9 +117,9 @@ func boolString(v bool) string {
 }
 
 func newParser(description string) (*kong.Kong, *CLI, error) {
-	envMode := outfmt.FromEnv("PLACEHOLDER_CLI")
+	envMode := outfmt.FromEnv("EXA_CLI")
 	vars := kong.Vars{
-		"color":   envOr("PLACEHOLDER_CLI_COLOR", "auto"),
+		"color":   envOr("EXA_CLI_COLOR", "auto"),
 		"json":    boolString(envMode.JSON),
 		"plain":   boolString(envMode.Plain),
 		"version": VersionString(),
@@ -129,7 +128,7 @@ func newParser(description string) (*kong.Kong, *CLI, error) {
 	cli := &CLI{}
 	parser, err := kong.New(
 		cli,
-		kong.Name("placeholder-cli"),
+		kong.Name("exa-cli"),
 		kong.Description(description),
 		kong.ConfigureHelp(kong.HelpOptions{
 			Compact: true,
@@ -146,7 +145,7 @@ func newParser(description string) (*kong.Kong, *CLI, error) {
 }
 
 func helpDescription() string {
-	return "Placeholder CLI - Replace with your service description"
+	return "Exa AI Search CLI - Search, research, and get answers from the web"
 }
 
 // newUsageError wraps errors in a way main() can map to exit code 2.
