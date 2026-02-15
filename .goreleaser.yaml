@@ -57,3 +57,5 @@ brews:
     homepage: "https://github.com/builtbyrobben/exa-cli"
     description: "Exa neural search CLI"
     license: "MIT"
+    test: |
+      system "#{bin}/exa-cli", "--version"
