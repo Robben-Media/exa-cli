@@ -118,6 +118,17 @@ linters:
       - path: cmd/.*\.go
         linters:
           - wsl_v5
+      - path: internal/exa/.*\.go
+        linters:
+          - tagliatelle
+      - path: internal/secrets/.*\.go
+        linters:
+          - err113
+          - wrapcheck
+          - wsl_v5
+      - path: internal/config/.*\.go
+        linters:
+          - wsl_v5
       - linters:
           - errcheck
         text: "Error return value of `fmt\\.Fprint"
@@ -132,4 +143,4 @@ formatters:
   settings:
     goimports:
       local-prefixes:
-        - github.com/builtbyrobben/cli-template
+        - github.com/builtbyrobben/exa-cli
