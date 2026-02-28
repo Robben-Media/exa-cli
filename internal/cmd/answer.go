@@ -35,6 +35,13 @@ func (cmd *AnswerCmd) Run(ctx context.Context) error {
 		return outfmt.WriteJSON(os.Stdout, result)
 	}
 
+	if outfmt.IsPlain(ctx) {
+		headers := []string{"ANSWER"}
+		rows := [][]string{{result.Answer}}
+
+		return outfmt.WritePlain(os.Stdout, headers, rows)
+	}
+
 	fmt.Fprintf(os.Stdout, "Answer:\n%s\n", result.Answer)
 
 	if len(result.Citations) > 0 {
