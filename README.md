@@ -4,13 +4,6 @@ Command-line interface for the [Exa](https://exa.ai) AI search API. Search the w
 
 ## Installation
 
-### Homebrew (macOS/Linux)
-
-```bash
-brew tap builtbyrobben/tap
-brew install exa-cli
-```
-
 ### Download Binary
 
 Download the latest release from [GitHub Releases](https://github.com/builtbyrobben/exa-cli/releases).
