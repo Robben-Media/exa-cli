@@ -47,14 +47,3 @@ archives:
 
 checksum:
   name_template: checksums.txt
-
-brews:
-  - repository:
-      owner: builtbyrobben
-      name: homebrew-tap
-      token: "{{ .Env.HOMEBREW_TAP_GITHUB_TOKEN }}"
-    homepage: "https://github.com/builtbyrobben/exa-cli"
-    description: "Exa neural search CLI"
-    license: "MIT"
-    test: |
-      system "#{bin}/exa-cli", "--version"
